@@ -11,28 +11,21 @@ using namespace std;
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        map<int, int> imap;
+        multimap<int, int> imap;
         for (int i = 0; i < nums.size(); i++) {
             imap.insert(pair<int, int>(nums[i], i));
         }
         for (int i = 0; i < nums.size(); i++) {
-            int one = nums[i];
-            int theOther = target - nums[i];
-            vector<int> res;
-            res.push_back(i + 1);
-            if (one != theOther) {
-                map<int, int>::iterator iter = imap.find(theOther);
-                if (iter != imap.end()) {
-                    res.push_back(iter->second + 1);
-                    return res;
-                }
-            } else {
-                for (int j = i + 1; j < nums.size(); j++) {
-                    if (theOther == nums[j]) {
-                        res.push_back(j + 1);
-                        return res;
-                    }
-                }
+            int val1 = nums[i];
+            int val2 = target - nums[i];
+            multimap<int, int>::iterator it1 = imap.find(val1);
+            imap.erase(it1);
+            multimap<int, int>::iterator it2 = imap.find(val2);
+            if (it2 != imap.end() ) {
+                vector<int> res;
+                res.push_back(i + 1);
+                res.push_back(it2->second + 1);
+                return res;
             }
         }
         return vector<int>(0, 2);
@@ -41,11 +34,8 @@ public:
 
 int main() {
     Solution *s = new Solution();
-    vector<int> inums;
-    inums.push_back(2);
-    inums.push_back(7);
-    inums.push_back(11);
-    inums.push_back(2);
+    int arr[] = {2, 7, 11, 2};
+    vector<int> inums(arr, arr + sizeof(arr)/sizeof(int));
     vector<int> res = s->twoSum(inums, 4);
     cout << res[0] << " " << res[1] << endl;
     delete s;
