@@ -3,4 +3,7 @@
 DIR=`dirname "$0"`
 DIR=`cd "${DIR}"; pwd`
 
-find ${DIR} -name "*.cc" ! -name "template.cc" | xargs sed -n '/^* # /p' | awk '{print $3}' | sort -n
+for file in `find ${DIR} -name "*.cc" ! -name "template.cc"`
+do
+  sed -n '2,3p' $file | sed 'N;s/\n/ /' | sed 's/* //g'
+done | sort -n -k 2

@@ -1,5 +1,5 @@
 /*
-* # 234 
+* # 234
 * Palindrome Linked List
 */
 
